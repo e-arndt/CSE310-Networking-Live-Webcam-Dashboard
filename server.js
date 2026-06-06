@@ -19,6 +19,14 @@ function loadCameras() {
   return JSON.parse(fileData);
 }
 
+// Save the updated camera list back to cameras.json.
+function saveCameras(cameras) {
+  const filePath = path.join(__dirname, "data", "cameras.json");
+  const fileData = JSON.stringify(cameras, null, 2);
+
+  fs.writeFileSync(filePath, fileData, "utf8");
+}
+
 // Load camera data safely. If cameras.json has a problem,
 // send a 500 error instead of crashing the route.
 function getCamerasOrSendError(res) {
@@ -75,6 +83,64 @@ app.get("/api/defaults", (req, res) => {
   const defaults = cameras.filter(camera => camera.isDefault);
 
   res.json(defaults);
+});
+
+// API route: replace one default camera with the camera currently selected on a card.
+app.post("/api/defaults", (req, res) => {
+  const cameras = getCamerasOrSendError(res);
+
+  if (!cameras) {
+    return;
+  }
+
+  const { slotIndex, cameraId } = req.body;
+
+  if (!Number.isInteger(slotIndex) || slotIndex < 0) {
+    return res.status(400).json({
+      error: "A valid slotIndex is required.",
+    });
+  }
+
+  if (!cameraId) {
+    return res.status(400).json({
+      error: "A cameraId is required.",
+    });
+  }
+
+  const selectedCamera = cameras.find(camera => camera.id === cameraId);
+
+  if (!selectedCamera) {
+    return res.status(404).json({
+      error: "Selected camera not found.",
+    });
+  }
+
+  // Safety check: if the selected camera is already a default, do nothing.
+  // The client disables this button, but the server still protects the data.
+  if (selectedCamera.isDefault) {
+    return res.json(cameras);
+  }
+
+  const defaults = cameras.filter(camera => camera.isDefault);
+  const oldDefault = defaults[slotIndex];
+
+  if (oldDefault) {
+    oldDefault.isDefault = false;
+  }
+
+  selectedCamera.isDefault = true;
+
+  try {
+    saveCameras(cameras);
+  } catch (error) {
+    console.error("Error writing cameras.json:", error);
+
+    return res.status(500).json({
+      error: "Unable to save default camera change.",
+    });
+  }
+
+  res.json(cameras);
 });
 
 // API route: return one camera by id.

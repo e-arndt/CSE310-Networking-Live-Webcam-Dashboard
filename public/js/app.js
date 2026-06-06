@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCameraDropdowns();
   setupFallbackButtons();
   setupStreamControlButtons();
+  setupDefaultButtons();
 });
 
 // Request the default camera list from the server.
@@ -137,6 +138,8 @@ function updateCard(card, camera) {
   card.dataset.videoId = camera.videoId || "";
   card.dataset.muted = "true";
 
+  updateDefaultButton(card, camera);
+
   if (title) {
     title.textContent = camera.name;
   }
@@ -163,6 +166,8 @@ function updateCard(card, camera) {
   if (frame) {
     frame.innerHTML = "";
 
+    setStatus(status, "status-loading", "● LOADING");
+
     const iframe = document.createElement("iframe");
     iframe.className = "cam";
     iframe.title = camera.name;
@@ -170,10 +175,18 @@ function updateCard(card, camera) {
     iframe.allowFullscreen = true;
     iframe.src = buildYouTubeEmbedUrl(camera.videoId, true);
 
-    frame.appendChild(iframe);
-  }
+    const loadingOverlay = document.createElement("div");
+    loadingOverlay.className = "stream-loading-overlay";
+    loadingOverlay.textContent = "Loading stream...";
 
-  setStatus(status, "status-live", "● LIVE");
+    frame.appendChild(iframe);
+    frame.appendChild(loadingOverlay);
+
+    setTimeout(() => {
+      loadingOverlay.remove();
+      setStatus(status, "status-live", "● LIVE");
+    }, 1500);
+  }
 }
 
 // Show a placeholder when there is no camera assigned to a card.
@@ -184,6 +197,7 @@ function showNoDefaultCamera(card) {
   const frame = card.querySelector(".camFrame");
   const description = card.querySelector(".camera-description");
   const muteButton = card.querySelector(".mute-button");
+  const defaultButton = card.querySelector(".default-button");
 
   card.dataset.cameraId = "";
   card.dataset.videoId = "";
@@ -205,11 +219,20 @@ function showNoDefaultCamera(card) {
     muteButton.textContent = "Unmute";
   }
 
+  if (defaultButton) {
+    defaultButton.textContent = "Set Default";
+    defaultButton.classList.remove("default-active");
+    defaultButton.disabled = true;
+  }
+
   if (frame) {
     frame.innerHTML = `
-      <div class="placeholder">
-        <div class="placeholder-title">No Default Camera</div>
-        <div class="placeholder-text">Select a camera or use fallback.</div>
+      <div class="placeholder placeholder-no-default">
+        <div class="placeholder-icon">⊘</div>
+        <div class="placeholder-content">
+          <div class="placeholder-title">No Default Camera</div>
+          <div class="placeholder-text">Select a camera or use fallback.</div>
+        </div>
       </div>
     `;
   }
@@ -238,7 +261,7 @@ function showNoVideoId(card, camera) {
 function buildYouTubeEmbedUrl(videoId, muted = true) {
   const muteValue = muted ? "1" : "0";
 
-  return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${muteValue}&controls=1&playsinline=1&rel=0`;
+  return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${muteValue}&controls=0&playsinline=1&rel=0`;
 }
 
 // Update the visual status badge on a card.
@@ -337,6 +360,121 @@ function setupStreamControlButtons() {
       });
     }
   });
+}
+
+// Add click listeners to each default button.
+function setupDefaultButtons() {
+  const defaultButtons = document.querySelectorAll(".default-button");
+
+  defaultButtons.forEach(button => {
+    button.addEventListener("click", async () => {
+      const card = button.closest(".card");
+
+      if (!card) {
+        return;
+      }
+
+      const cameraId = card.dataset.cameraId;
+
+      if (!cameraId) {
+        return;
+      }
+
+      // Default cameras are shown as disabled buttons, so this should only run
+      // for non-default cameras. This check is a small extra safety guard.
+      if (button.disabled) {
+        return;
+      }
+
+      const slotNumber = Number(card.dataset.slot);
+      const slotIndex = slotNumber - 1;
+
+      if (Number.isNaN(slotIndex) || slotIndex < 0) {
+        console.error("Unable to determine dashboard slot for default update.");
+        return;
+      }
+
+      try {
+        button.disabled = true;
+        button.textContent = "Saving...";
+
+        const response = await fetch("/api/defaults", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            slotIndex,
+            cameraId,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to update default camera.");
+        }
+
+        const updatedCameras = await response.json();
+
+        allCameras = updatedCameras;
+
+        const updatedCamera = allCameras.find(camera => camera.id === cameraId);
+
+        if (updatedCamera) {
+          updateDefaultButton(card, updatedCamera);
+        }
+
+        refreshDefaultButtonsFromCameraList();
+
+        console.log("Default camera updated:", {
+          slotIndex,
+          cameraId,
+        });
+      } catch (error) {
+        console.error("Error updating default camera:", error);
+
+        button.textContent = "Set Default";
+        button.disabled = false;
+      }
+    });
+  });
+}
+
+// Refresh visible Default buttons after the saved default list changes.
+function refreshDefaultButtonsFromCameraList() {
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+    const cameraId = card.dataset.cameraId;
+
+    if (!cameraId) {
+      return;
+    }
+
+    const camera = allCameras.find(camera => camera.id === cameraId);
+
+    if (camera) {
+      updateDefaultButton(card, camera);
+    }
+  });
+}
+
+// Update the Default button based on the camera currently loaded in the card.
+function updateDefaultButton(card, camera) {
+  const defaultButton = card.querySelector(".default-button");
+
+  if (!defaultButton) {
+    return;
+  }
+
+  if (camera.isDefault) {
+    defaultButton.textContent = "Default Cam";
+    defaultButton.classList.add("default-active");
+    defaultButton.disabled = true;
+  } else {
+    defaultButton.textContent = "Set Default";
+    defaultButton.classList.remove("default-active");
+    defaultButton.disabled = false;
+  }
 }
 
 // Toggle a card between muted and unmuted playback.
