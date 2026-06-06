@@ -96,18 +96,6 @@
     "isDefault": false
   },
   {
-    "id": "salt-lake-sunset",
-    "name": "Salt Lake Sunset",
-    "location": "Salt Lake City, Utah",
-    "category": "city",
-    "provider": "YouTube",
-    "channel": "Salt Lake Sunset",
-    "description": "Live Salt Lake City camera focused on skyline, weather, and sunset views.",
-    "videoId": "ymaZB3c3DT4",
-    "url": "https://www.youtube.com/watch?v=ymaZB3c3DT4",
-    "isDefault": false
-  },
-  {
     "id": "leavenworth-washington-live",
     "name": "Leavenworth Washington Live Webcam from Kris Kringl!",
     "location": "Leavenworth, Washington",
@@ -168,8 +156,8 @@
     "isDefault": false
   },
   {
-    "id": "oceanside-rooftop-bar-webcam",
-    "name": "The Rooftop Bar | Oceanside, CA | San Diego Web Cam",
+    "id": "oceanside-rooftop-webcam",
+    "name": "The Rooftop | Oceanside, CA | San Diego Web Cam",
     "location": "Oceanside, California",
     "category": "coast",
     "provider": "YouTube",
@@ -297,6 +285,42 @@
     "description": "Live astronomy camera from Mauna Kea, Hawaii, showing sky conditions, meteors, and nighttime views.",
     "videoId": "6g4Fh8K-MhY",
     "url": "https://www.youtube.com/watch?v=6g4Fh8K-MhY",
+    "isDefault": false
+  },
+  {
+    "id": "winter-garden-florida-webcam",
+    "name": "Winter Garden, Florida Webcam",
+    "location": "Winter Garden, Florida",
+    "category": "city",
+    "provider": "YouTube",
+    "channel": "Winter Garden Heritage Foundation",
+    "description": "This live webcam looks west toward the iconic Plant Street clock tower from the Winter Garden Heritage Museum, operated by the Winter Garden Heritage Foundation.",
+    "videoId": "sKcmQQqzQcM",
+    "url": "https://www.youtube.com/live/sKcmQQqzQcM?si=nTsxcbCObLIbY1El",
+    "isDefault": false
+  },
+  {
+    "id": "san-diego-harbor-island-web-cam",
+    "name": "San Diego Harbor Island Web Cam",
+    "location": "San Diego, California",
+    "category": "coast",
+    "provider": "YouTube",
+    "channel": "San Diego Web Cam",
+    "description": "From Tom Ham's Lighthouse on Harbor Island.  This live camera usually faces the east, towards Downtown San Diego.",
+    "videoId": "iaBfYxbmwXA",
+    "url": "https://www.youtube.com/live/iaBfYxbmwXA?si=aZDribBooih0kivH",
+    "isDefault": false
+  },
+  {
+    "id": "heathrow-airport-live-stream",
+    "name": "Heathrow Airport Live Stream",
+    "location": "Heathrow Airport, London, UK",
+    "category": "airport",
+    "provider": "YouTube",
+    "channel": "Flight Focus 365",
+    "description": "Ai based Robocam, Live at London Heathrow Airport.",
+    "videoId": "vrGR0P-LQMo",
+    "url": "https://www.youtube.com/live/vrGR0P-LQMo?si=qfJWx7Bh-eUX4Fi0",
     "isDefault": false
   }
 ]

@@ -140,6 +140,19 @@ h1 {
 .camera-select {
   width: 100%;
   min-width: 0;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.camera-select option {
+  background: #2b0d07;
+  color: #fff;
+}
+
+.camera-select option:checked {
+  background: #541212;
+  color: #fff;
 }
 
 .camera-select:focus {

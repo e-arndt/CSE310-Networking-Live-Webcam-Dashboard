@@ -232,7 +232,7 @@ function showNoDefaultCamera(card) {
         <div class="placeholder-icon">⊘</div>
         <div class="placeholder-content">
           <div class="placeholder-title">No Default Camera</div>
-          <div class="placeholder-text">Select a camera or use fallback.</div>
+          <div class="placeholder-text">Select a camera or use Random.</div>
         </div>
       </div>
     `;
@@ -302,7 +302,7 @@ function getActiveCameraIds() {
   return activeIds;
 }
 
-// Add click listeners to each fallback button.
+// Add click listeners to each Random button.
 function setupFallbackButtons() {
   const fallbackButtons = document.querySelectorAll(".fallback-button");
 
@@ -323,19 +323,19 @@ function setupFallbackButtons() {
         const response = await fetch(`/api/fallback/${currentParam}?active=${activeParam}`);
 
         if (!response.ok) {
-          throw new Error("Failed to load fallback camera.");
+          throw new Error("Failed to load random camera.");
         }
 
         const fallbackCamera = await response.json();
 
         updateCard(card, fallbackCamera);
 
-        console.log("Fallback camera selected:", fallbackCamera);
+        console.log("Random camera selected:", fallbackCamera);
       } catch (error) {
-        console.error("Error loading fallback camera:", error);
+        console.error("Error loading random camera:", error);
 
         const status = card.querySelector(".status");
-        setStatus(status, "status-offline", "● FALLBACK ERROR");
+        setStatus(status, "status-offline", "● RANDOM ERROR");
       }
     });
   });
