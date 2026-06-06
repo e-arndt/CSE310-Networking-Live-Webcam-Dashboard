@@ -9,7 +9,7 @@
     "description": "Live public camera view of Niagara Falls with moving water, mist, and scenic views.",
     "videoId": "cf4YkyGk6Tk",
     "url": "https://www.youtube.com/watch?v=cf4YkyGk6Tk",
-    "isDefault": true
+    "isDefault": false
   },
   {
     "id": "las-vegas-airport-live",
@@ -273,7 +273,7 @@
     "description": "Live beach camera from Deerfield Beach, Florida, showing pier, surf, weather, and beach activity.",
     "videoId": "rdeoEeJ00xA",
     "url": "https://www.youtube.com/watch?v=rdeoEeJ00xA",
-    "isDefault": false
+    "isDefault": true
   },
   {
     "id": "chicago-lake-skyline-camera",

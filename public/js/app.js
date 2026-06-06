@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupFallbackButtons();
   setupStreamControlButtons();
   setupDefaultButtons();
+  setCopyrightYear();
 });
 
 // Request the default camera list from the server.
@@ -475,6 +476,17 @@ function updateDefaultButton(card, camera) {
     defaultButton.classList.remove("default-active");
     defaultButton.disabled = false;
   }
+}
+
+// Set the footer copyright year automatically.
+function setCopyrightYear() {
+  const yearElement = document.getElementById("copyright-year");
+
+  if (!yearElement) {
+    return;
+  }
+
+  yearElement.textContent = new Date().getFullYear();
 }
 
 // Toggle a card between muted and unmuted playback.
