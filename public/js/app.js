@@ -4,7 +4,7 @@
 // Controls the browser side of the Live Webcam Dashboard.
 // The client requests camera data from the Express server and uses
 // the server response to update dashboard cards, dropdowns, streams,
-// descriptions, fallback choices, and stream controls.
+// descriptions, random choices, and stream controls.
 
 let allCameras = [];
 
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadDefaultCameras();
   loadCameraDropdowns();
-  setupFallbackButtons();
+  setupRandomButtons();
   setupStreamControlButtons();
   setupDefaultButtons();
   setCopyrightYear();
@@ -303,10 +303,10 @@ function getActiveCameraIds() {
 }
 
 // Add click listeners to each Random button.
-function setupFallbackButtons() {
-  const fallbackButtons = document.querySelectorAll(".fallback-button");
+function setupRandomButtons() {
+  const randomButtons = document.querySelectorAll(".random-button");
 
-  fallbackButtons.forEach(button => {
+  randomButtons.forEach(button => {
     button.addEventListener("click", async () => {
       const card = button.closest(".card");
 
@@ -320,17 +320,17 @@ function setupFallbackButtons() {
       const currentParam = encodeURIComponent(currentCameraId);
 
       try {
-        const response = await fetch(`/api/fallback/${currentParam}?active=${activeParam}`);
+        const response = await fetch(`/api/random/${currentParam}?active=${activeParam}`);
 
         if (!response.ok) {
           throw new Error("Failed to load random camera.");
         }
 
-        const fallbackCamera = await response.json();
+        const randomCamera = await response.json();
 
-        updateCard(card, fallbackCamera);
+        updateCard(card, randomCamera);
 
-        console.log("Random camera selected:", fallbackCamera);
+        console.log("Random camera selected:", randomCamera);
       } catch (error) {
         console.error("Error loading random camera:", error);
 

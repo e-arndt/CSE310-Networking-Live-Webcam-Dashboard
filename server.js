@@ -5,7 +5,7 @@ const fs = require("fs");
 const app = express();
 const PORT = 3030;
 
-// Allow Express to read JSON request bodies if needed later.
+// Allow Express to read JSON request bodies.
 app.use(express.json());
 
 // Serve the dashboard files from the public folder.
@@ -162,8 +162,8 @@ app.get("/api/cameras/:id", (req, res) => {
   res.json(camera);
 });
 
-// API route: return a random fallback camera that is not already active.
-app.get("/api/fallback/:currentId", (req, res) => {
+// API route: return a random camera that is not already active when possible.
+app.get("/api/random/:currentId", (req, res) => {
   const cameras = getCamerasOrSendError(res);
 
   if (!cameras) {
@@ -190,14 +190,14 @@ app.get("/api/fallback/:currentId", (req, res) => {
 
   if (available.length === 0) {
     return res.status(404).json({
-      error: "No fallback cameras available.",
+      error: "No random cameras available.",
     });
   }
 
   const randomIndex = Math.floor(Math.random() * available.length);
-  const fallbackCamera = available[randomIndex];
+  const randomCamera = available[randomIndex];
 
-  res.json(fallbackCamera);
+  res.json(randomCamera);
 });
 
 // Start the server.

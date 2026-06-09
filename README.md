@@ -2,11 +2,11 @@
 
 ## Overview
 
-This project is a web-based live webcam dashboard created for CSE 310 Module #3: Networking. The purpose of this software is to demonstrate the client-server networking model using a browser-based client and a Node.js/Express server.
+This project is a web-based live webcam dashboard created for CSE 310 Module #3: Networking. The purpose of this software is to demonstrate a simple client-server networking model using a browser-based client and a Node.js/Express server.
 
-The dashboard displays multiple public live camera or livestream sources in a responsive web interface. The browser client sends HTTP requests to the server to request camera source data. The server responds with JSON data, and the client uses that response to populate the dashboard, update video embeds, fill dropdown lists, and request fallback camera sources when needed.
+The dashboard displays four public YouTube livestream camera sources in a responsive web interface. The browser client sends HTTP requests to the Express server to request camera data. The server responds with JSON data, and the client uses that response to populate the dashboard, update video embeds, fill dropdown lists, change default cameras, and request random camera sources.
 
-This project uses HTTP communication over TCP. The browser acts as the client, and the Node.js/Express application acts as the server. Camera information is stored on the server side in a local JSON file, which allows the server to provide structured camera data in response to client requests.
+This project uses HTTP communication over TCP. The browser acts as the client, and the Node.js/Express application acts as the server. Camera information is stored on the server side in a local JSON file. The server reads that file and provides structured camera data in response to client requests.
 
 The main goals of this project are:
 
@@ -14,9 +14,10 @@ The main goals of this project are:
 * Send requests from the browser client to the server.
 * Return JSON responses from the server to the client.
 * Use the server response to update the webpage GUI.
-* Load camera source information from a local data file.
-* Provide a simple dashboard interface for viewing and selecting live camera sources.
-* Include fallback camera logic when a selected source is unavailable or needs to be replaced.
+* Load camera source information from a local JSON data file.
+* Provide a simple dashboard interface for viewing and selecting public livestream camera sources.
+* Allow the user to select a random camera while avoiding duplicate active streams when possible.
+* Allow the user to save selected cameras as local dashboard defaults.
 
 [Software Demo Video](http://youtube.link.goes.here)
 
@@ -26,25 +27,30 @@ This project uses the client-server model.
 
 The client is the browser-based dashboard. The server is a Node.js/Express application. The client uses the `fetch()` function in JavaScript to send HTTP requests to the server. The server processes those requests and sends JSON responses back to the client.
 
-Example request types planned for this project include:
+HTTP runs over TCP, so this project satisfies the networking requirement through TCP-based client-server communication.
+
+The application includes several request types:
 
 * `GET /api/cameras`
   Returns the full list of available camera sources.
 
 * `GET /api/defaults`
-  Returns the default cameras that should load when the dashboard opens.
+  Returns the cameras marked as default cameras. These load automatically when the dashboard opens.
+
+* `POST /api/defaults`
+  Updates the local `cameras.json` file so the currently selected camera becomes a saved default camera.
 
 * `GET /api/cameras/:id`
   Returns information for one selected camera source.
 
-* `GET /api/fallback/:slot`
-  Returns a replacement camera source for a dashboard slot.
+* `GET /api/random/:currentId?active=...`
+  Returns a random camera source. The server avoids returning the camera already displayed on the current card and tries to avoid cameras already active on the dashboard.
 
-The client then uses the JSON response data to update the dashboard cards, dropdown lists, camera titles, status labels, and embedded livestream players.
+The client uses the JSON response data to update dashboard cards, dropdown lists, camera titles, category labels, description text, default button states, status labels, and embedded YouTube livestream players.
 
 ## Development Environment
 
-This software is being developed using:
+This software was developed using:
 
 * Visual Studio Code
 * Node.js
@@ -55,45 +61,61 @@ This software is being developed using:
 * JSON
 * Git / GitHub
 
-The project is designed to run locally during development. The Express server serves the client files and provides API routes for camera data.
+The project runs locally during development. The Express server serves the client files and provides API routes for camera data.
 
 ## Project Structure
 
-text
 live-webcam-dashboard/
-├─ server.js
-├─ package.json
-├─ README.md
 ├─ data/
 │  └─ cameras.json
 ├─ public/
-│  ├─ index.html
 │  ├─ css/
 │  │  └─ styles.css
-│  └─ js/
-│     ├─ app.js
-│     ├─ cam-tune.js
-│     └─ cam-status.js
-└─ docs/
-   └─ time-log.md
-
+│  ├─ js/
+│  │  └─ app.js
+│  ├─ favicon.png
+│  └─ index.html
+├─ README.md
+├─ package.json
+└─ server.js
 
 ## How to Run
 
-These instructions will be updated as the project is completed.
+Install the project dependencies:
 
-Planned local startup process:
+`npm install`
 
-bash
-npm install
-npm start
+Start the local Express server:
 
+`npm start`
 
-Then open the local server address in a browser, such as:
+Then open the local server address in a browser:
 
-text
-http://localhost:3030
+`http://localhost:3030`
 
+The server also provides API routes that can be viewed directly in the browser:
+
+`http://localhost:3030/api/cameras`
+
+`http://localhost:3030/api/defaults`
+
+## Features
+
+Current features include:
+
+* Four-card live webcam dashboard.
+* Public YouTube livestream embeds.
+* Responsive layout for desktop, tablet, and mobile screen sizes.
+* Dropdown camera selection for each dashboard card.
+* Random camera button for replacing a displayed stream.
+* Duplicate avoidance when selecting random cameras when possible.
+* Default camera button that saves selected defaults to `cameras.json`.
+* Default camera state that persists after page reload.
+* Mute and unmute button for each stream.
+* Reload stream button for each card.
+* Loading overlay while streams are loading.
+* Dynamic camera descriptions.
+* Dynamic footer copyright year.
 
 ## Useful Websites
 
@@ -110,26 +132,25 @@ http://localhost:3030
 Possible future improvements include:
 
 * Add more public live camera sources.
-* Improve fallback selection by category or location.
+* Improve random selection by category or location.
 * Add better stream status handling.
 * Add search or filtering by category.
-* Add saved user preferences for selected cameras.
-* Add a refresh option for individual dashboard cards.
-* Improve mobile layout and accessibility.
+* Add saved user preferences beyond the local default camera list.
 * Add better error messages when a livestream cannot be embedded.
-
+* Add a more advanced YouTube player controller using the YouTube IFrame Player API.
+* Continue improving mobile layout and accessibility.
 
 ## Learning Strategies
 
-During this project, I plan to use several learning strategies:
+During this project, I used several learning strategies:
 
-* Start with a small working version before adding extra features.
-* Build and test the client-server connection first.
-* Use browser developer tools to inspect network requests and responses.
-* Keep the networking requirement clear by showing how the client requests data and how the server responds.
-* Use comments to explain the purpose of each function.
-* Test each feature in small steps before combining everything into the final dashboard.
-* Avoid overcomplicating livestream failure detection so the project stays focused on networking.
+* Started with a small working version before adding extra features.
+* Built and tested the client-server connection first.
+* Used browser developer tools to inspect network requests and responses.
+* Kept the networking requirement clear by showing how the client requests data and how the server responds.
+* Used comments to explain the purpose of important functions.
+* Tested each feature in small steps before combining everything into the final dashboard.
+* Avoided overcomplicating livestream failure detection so the project stayed focused on networking.
 
 ## Author
 
