@@ -124,6 +124,7 @@ Current features include:
 * [MDN Web Docs - Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 * [MDN Web Docs - JSON](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON)
 * [MDN Web Docs - HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP)
+* [W3Schools - HTML YouTube Videos](https://www.w3schools.com/html/html_youtube.asp)
 * [Wikipedia - Client-server model](https://en.wikipedia.org/wiki/Client%E2%80%93server_model)
 * [Wikipedia - Transmission Control Protocol](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)
 
@@ -135,6 +136,7 @@ Possible future improvements include:
 * Improve random selection by category or location.
 * Add better stream status handling.
 * Add search or filtering by category.
+* Add a fullscreen viewer option via the dashboard controls.
 * Add saved user preferences beyond the local default camera list.
 * Add better error messages when a livestream cannot be embedded.
 * Add a more advanced YouTube player controller using the YouTube IFrame Player API.

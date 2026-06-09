@@ -9,6 +9,12 @@
 </head>
 
 <body>
+  <!--
+    Page header
+
+    Gives the dashboard a clear title and explains that the page is powered by
+    the local Express server used for the networking project.
+  -->
   <header class="site-header">
     <div>
       <h1>Live Webcam Dashboard</h1>
@@ -16,6 +22,12 @@
     </div>
   </header>
 
+  <!--
+    Dashboard grid
+
+    The grid contains four camera cards. JavaScript fills each card with camera
+    data requested from the Express server.
+  -->
   <div class="grid">
 
     <!-- Dashboard Slot 1 -->
@@ -29,6 +41,7 @@
         </div>
       </div>
 
+      <!-- YouTube iframe area updated by app.js -->
       <div class="camFrame">
         <iframe
           class="cam"
@@ -38,14 +51,20 @@
         </iframe>
       </div>
 
+      <!-- Camera selection controls -->
       <div class="camera-actions">
-        <select class="camera-select" aria-label="Select camera for slot 1">
+        <select
+          id="camera-select-1"
+          name="camera-select-1"
+          class="camera-select"
+          aria-label="Select camera for slot 1">
           <option value="">Loading camera list...</option>
         </select>
 
         <button class="random-button" type="button">Random</button>
       </div>
 
+      <!-- Stream and default-camera controls -->
       <div class="stream-controls">
         <button class="default-button" type="button">Default Cam</button>
         <button class="mute-button" type="button">Unmute</button>
@@ -69,6 +88,7 @@
         </div>
       </div>
 
+      <!-- YouTube iframe area updated by app.js -->
       <div class="camFrame">
         <iframe
           class="cam"
@@ -78,14 +98,20 @@
         </iframe>
       </div>
 
+      <!-- Camera selection controls -->
       <div class="camera-actions">
-        <select class="camera-select" aria-label="Select camera for slot 2">
+        <select
+          id="camera-select-2"
+          name="camera-select-2"
+          class="camera-select"
+          aria-label="Select camera for slot 2">
           <option value="">Loading camera list...</option>
         </select>
 
         <button class="random-button" type="button">Random</button>
       </div>
 
+      <!-- Stream and default-camera controls -->
       <div class="stream-controls">
         <button class="default-button" type="button">Default Cam</button>
         <button class="mute-button" type="button">Unmute</button>
@@ -109,6 +135,7 @@
         </div>
       </div>
 
+      <!-- YouTube iframe area updated by app.js -->
       <div class="camFrame">
         <iframe
           class="cam"
@@ -118,14 +145,20 @@
         </iframe>
       </div>
 
+      <!-- Camera selection controls -->
       <div class="camera-actions">
-        <select class="camera-select" aria-label="Select camera for slot 3">
+        <select
+          id="camera-select-3"
+          name="camera-select-3"
+          class="camera-select"
+          aria-label="Select camera for slot 3">
           <option value="">Loading camera list...</option>
         </select>
 
         <button class="random-button" type="button">Random</button>
       </div>
 
+      <!-- Stream and default-camera controls -->
       <div class="stream-controls">
         <button class="default-button" type="button">Default Cam</button>
         <button class="mute-button" type="button">Unmute</button>
@@ -149,6 +182,7 @@
         </div>
       </div>
 
+      <!-- YouTube iframe area updated by app.js -->
       <div class="camFrame">
         <iframe
           class="cam"
@@ -158,14 +192,20 @@
         </iframe>
       </div>
 
+      <!-- Camera selection controls -->
       <div class="camera-actions">
-        <select class="camera-select" aria-label="Select camera for slot 4">
+        <select
+          id="camera-select-4"
+          name="camera-select-4"
+          class="camera-select"
+          aria-label="Select camera for slot 4">
           <option value="">Loading camera list...</option>
         </select>
 
         <button class="random-button" type="button">Random</button>
       </div>
 
+      <!-- Stream and default-camera controls -->
       <div class="stream-controls">
         <button class="default-button" type="button">Default Cam</button>
         <button class="mute-button" type="button">Unmute</button>
@@ -179,6 +219,7 @@
 
   </div>
 
+  <!-- Footer information for the course module and project type -->
   <footer class="site-footer">
     <span>CSE 310 Networking Module</span>
     <span>Local Express Server</span>
@@ -186,6 +227,7 @@
     <span>&copy; <span id="copyright-year"></span> Eric Arndt</span>
   </footer>
 
+  <!-- Main browser-side dashboard logic -->
   <script src="js/app.js"></script>
 </body>
 </html>
