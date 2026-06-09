@@ -2,32 +2,25 @@
 
 ## Overview
 
-This project is a web-based live webcam dashboard created for CSE 310 Module #3: Networking. The purpose of this software is to demonstrate a simple client-server networking model using a browser-based client and a Node.js/Express server.
+Live Webcam Dashboard is a web-based dashboard for viewing public YouTube livestream camera sources through a local client-server application. I wrote this software to practice building a networked application where a browser client communicates with a Node.js/Express server, receives JSON data, and uses that data to update a graphical user interface.
 
-The dashboard displays four public YouTube livestream camera sources in a responsive web interface. The browser client sends HTTP requests to the Express server to request camera data. The server responds with JSON data, and the client uses that response to populate the dashboard, update video embeds, fill dropdown lists, change default cameras, and request random camera sources.
+The dashboard displays four public livestream camera sources in a responsive web interface. The user can select cameras from dropdown lists, request a random camera, save a selected camera as a local default, mute or unmute a stream, and reload an individual stream. Camera information is stored in a local JSON file on the server side.
 
-This project uses HTTP communication over TCP. The browser acts as the client, and the Node.js/Express application acts as the server. Camera information is stored on the server side in a local JSON file. The server reads that file and provides structured camera data in response to client requests.
+To use the software, start the Express server with `npm start`, open `http://localhost:3030` in a browser, and interact with the dashboard. The server hosts the webpage files and also provides API routes that the browser client uses to request and update camera data.
 
-The main goals of this project are:
-
-* Demonstrate client-server networking.
-* Send requests from the browser client to the server.
-* Return JSON responses from the server to the client.
-* Use the server response to update the webpage GUI.
-* Load camera source information from a local JSON data file.
-* Provide a simple dashboard interface for viewing and selecting public livestream camera sources.
-* Allow the user to select a random camera while avoiding duplicate active streams when possible.
-* Allow the user to save selected cameras as local dashboard defaults.
+The purpose of this project was to improve my understanding of client-server networking, HTTP request/response communication, JSON data exchange, server-side routing, and browser-side GUI updates.
 
 [Software Demo Video](http://youtube.link.goes.here)
 
 ## Network Communication
 
-This project uses the client-server model.
+This project uses a client-server architecture.
 
-The client is the browser-based dashboard. The server is a Node.js/Express application. The client uses the `fetch()` function in JavaScript to send HTTP requests to the server. The server processes those requests and sends JSON responses back to the client.
+The client is the browser-based dashboard. The server is a Node.js/Express application. The Express server hosts the static webpage files from the `public` folder, including `index.html`, `styles.css`, `app.js`, and the favicon. After the page loads, the browser-side JavaScript sends HTTP requests to the server using `fetch()`.
 
-HTTP runs over TCP, so this project satisfies the networking requirement through TCP-based client-server communication.
+This project uses TCP. HTTP runs over TCP, so the browser client and Express server communicate using TCP-based HTTP request and response traffic. The server runs locally on port `3030`.
+
+The messages sent between the client and server are HTTP requests and JSON responses. The client sends requests to API routes, and the server responds with JSON camera data or saves updated default-camera data.
 
 The application includes several request types:
 
@@ -61,7 +54,7 @@ This software was developed using:
 * JSON
 * Git / GitHub
 
-The project runs locally during development. The Express server serves the client files and provides API routes for camera data.
+The main programming language is JavaScript. Node.js and Express.js are used for the server. Browser-side JavaScript is used for the client. HTML and CSS are used for the webpage structure and styling. JSON is used to store the camera data.
 
 ## Project Structure
 
