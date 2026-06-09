@@ -8,7 +8,7 @@ const PORT = 3030;
 /*
   Express setup
 
-  express.json() allows the server to read JSON data sent in a request body.
+  express.json() allows the server to read JSON data sent in a request.
   This is needed for the POST /api/defaults route when the browser saves a
   new default camera.
 */
