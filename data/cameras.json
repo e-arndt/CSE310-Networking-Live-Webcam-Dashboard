@@ -9,7 +9,7 @@
     "description": "Live public camera view of Niagara Falls with moving water, mist, and scenic views.",
     "videoId": "cf4YkyGk6Tk",
     "url": "https://www.youtube.com/watch?v=cf4YkyGk6Tk",
-    "isDefault": false
+    "isDefault": true
   },
   {
     "id": "las-vegas-airport-live",
@@ -213,7 +213,7 @@
     "description": "Live high-resolution view of Sydney Harbour with city lights, water traffic, and nighttime skyline views.",
     "videoId": "5uZa3-RMFos",
     "url": "https://www.youtube.com/watch?v=5uZa3-RMFos",
-    "isDefault": true
+    "isDefault": false
   },
   {
     "id": "tokyo-shinjuku-jr-live-cam",

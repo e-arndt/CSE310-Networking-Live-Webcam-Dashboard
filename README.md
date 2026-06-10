@@ -10,7 +10,7 @@ To use the software, start the Express server with `npm start`, open `http://loc
 
 The purpose of this project was to improve my understanding of client-server networking, HTTP request/response communication, JSON data exchange, server-side routing, and browser-side GUI updates.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/aJbX96hptYM)
 
 ## Network Communication
 
